@@ -58,7 +58,7 @@ namespace Filters {
 	colormask(acolormask),
 	mask((~(acolormask << pos)))
 	{}
-
+ 
     public:
 
       operator word() const { return ((~mask)&w_ref)>>pos;}

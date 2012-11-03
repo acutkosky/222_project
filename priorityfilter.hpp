@@ -10,20 +10,21 @@
 namespace Filter {
 
 
-  template <typename datatype,class PriorityFunc>
+  template <typename datatype>
   class PriorityFilter {
 
   public:
-    PriorityFilter(word size, word bits, word ak):
+    PriorityFilter(word size, word bits, word ak,word (*prioritypointer)(datatype)):
       filter(size,bits),
       k(ak)
+      Priority(prioritypointer);
     {}
 
     int insert(datatype toinsert) {
       for(word i=0;i<k;i++) {
 	word hashval = hash(toinsert,i)
 	  word curpriority = filter[hashval];
-	word priority = PriorityFunc(toinsert);
+	word priority = Priority(toinsert);
 	if(curpriority<priority)
 	  filter[hashval]=priority;
       }
@@ -32,7 +33,7 @@ namespace Filter {
 
 
     int check(datatype tocheck) {
-      word priority = PriorityFunc(tocheck);
+      word priority = Priority(tocheck);
 
       for(word i=0;i<k;i++) {
 	word hashval = hash(tocheck,i);
@@ -45,7 +46,7 @@ namespace Filter {
 
     
     ColorArray filter;
-    
+    word (*Priority)(datatype);
     word k;
   };
 

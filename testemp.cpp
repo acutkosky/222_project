@@ -6,11 +6,12 @@ using std::endl;
 
 
 
-template <class afunc>
+template <typename datatype>
 class testclass {
 public:
-  int a;
-  testclass(int blah):a(blah){}
+  datatype a;
+  int (*afunc)(datatype);
+  testclass(datatype blah,int(*func)(datatype)):a(blah),afunc(func){}
 
   int run(void) {
     return afunc(a);
@@ -26,9 +27,10 @@ int testfunct(int ha) {
 
 
 
+
 int main(int argc, char* argv[] ) {
 
-  testclass<testfunct> testing(15);
+  testclass<int> testing(15,testfunct);
 
   
   cout<<testing.run()<<endl;

@@ -4,10 +4,8 @@
  *m needs to divide the size of a word.
  *attempts to provide relatively seamless operation as a normal array
  */
-#include <assert.h>
-#include<iostream>
-using std::cout;
-using std::endl;
+#include<assert.h>
+
 
 namespace Filters {
   typedef unsigned int word;
@@ -27,7 +25,7 @@ namespace Filters {
       }else{
 	size = (acolorbits*asize-1)/WORD_SIZE+1;
 	bitarray = new word[size];
-	for(int i=0;i<size;i++) {
+	for(unsigned int i=0;i<size;i++) {
 	  bitarray[i] = 0;
 	}
       }
@@ -52,10 +50,6 @@ namespace Filters {
        * but this is only used in filling the bloom filter, so it shouldn't
        * be a huge deal
        */
-      const word pos;
-      const word mask;
-      const word colormask;
-      word & w_ref;
       
       
       reference(word & w, word apos, word acolormask):
@@ -78,6 +72,17 @@ namespace Filters {
 	w_ref = (mask&w_ref)|(((aref.w_ref&(~(aref.mask)))>>aref.pos)<<pos);
 	return *this;
       }
+
+
+
+    private:
+
+      word& w_ref;
+      const word pos;
+      const word colormask;
+      const word mask;
+
+
     };
 
 

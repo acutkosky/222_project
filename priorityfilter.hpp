@@ -14,15 +14,16 @@ namespace Filter {
   class PriorityFilter {
 
   public:
-    PriorityFilter(word size, word bits, word ak,word (*prioritypointer)(datatype)):
+    PriorityFilter(word size, word bits, word ak,word (*prioritypointer)(datatype), unsigned int (* alength) (datatype)):
       filter(size,bits),
-      k(ak)
-      Priority(prioritypointer);
+      k(ak),
+      Priority(prioritypointer),
+      length(alength)
     {}
 
     int insert(datatype toinsert) {
       for(word i=0;i<k;i++) {
-	word hashval = hash(toinsert,i)
+	word hashval = hash(toinsert,i,size)
 	  word curpriority = filter[hashval];
 	word priority = Priority(toinsert);
 	if(curpriority<priority)
@@ -36,7 +37,7 @@ namespace Filter {
       word priority = Priority(tocheck);
 
       for(word i=0;i<k;i++) {
-	word hashval = hash(tocheck,i);
+	word hashval = hash(tocheck,i,size);
 	word curpriority = filter[hashval];
 	if(curpriority<priority)
 	  return 0;
@@ -48,6 +49,17 @@ namespace Filter {
     ColorArray filter;
     word (*Priority)(datatype);
     word k;
-  };
+   
+
+  private:
+    unsigned int (* length) (datatype);
+
+    word hash(datatype key, int i, int size){
+      unsigned int x;
+      unsigned int * p = &x;
+      hashval = MurmurHash3_x86_32(key, length(key) , i, p);
+      p = p % size;
+      return p;				     
+    };
 
 }

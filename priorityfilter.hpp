@@ -5,7 +5,9 @@
 
 #include"MurmurHash3.cpp"
 #include"colorarray.hpp"
+#include <iostream>
 
+using namespace std;
 
 namespace Filters {
 
@@ -40,8 +42,10 @@ namespace Filters {
       for(word i=0;i<k;i++) {
 	word hashval = hash(tocheck,i,filter.getsize());
 	word curpriority = filter[hashval];
-	if(curpriority<priority)
+	//cout << hashval << ' ' << curpriority << ' ';
+	if(curpriority<priority){
 	  return 0;
+	}
       }
       return 1;
     }

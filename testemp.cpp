@@ -3,6 +3,8 @@
 #include<iostream>
 #include"priorityfilter.hpp"
 #include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
 #include<string.h>
 using namespace std;
 using namespace Filters;
@@ -32,7 +34,7 @@ int testfunct(int ha) {
 
 
 word priority(char* str) {
-  return ((word)str[0])%4;
+  return ((word)str[0])%3 + 1;
 }
 
 word length(char* str) {
@@ -73,6 +75,50 @@ int main(int argc, char* argv[] ) {
   }
   
 
+  char ** randstrings = new char*[1000];
+  srand(0);
+  int arraysize = 1000;
+  for(int i = 0; i < arraysize; i ++){
+    int randNum = rand() % 10 + 11;
+    char * astring = new char[randNum];
+    
+    for(int j=0; j < randNum - 1; j ++){
+      astring[j] = rand() % 26 + 'a';
+    }
+    astring[randNum-1] = '\0';
+    //cout << astring << endl;
+    randstrings[i] = astring;
+  }
+
+  PriorityFilter<char*> myfilter(10000,4, 2, priority, length);  
+
+  for(int i = 0; i < arraysize; i ++){
+    myfilter.insert(randstrings[i]);
+  }
+
+  cout << "checking our strings" << endl;
+  for(int i = 0; i < arraysize; i ++){
+    if(!myfilter.check(randstrings[i]))
+      cout << "fail on " << randstrings[i] << endl;
+  }
+
+  cout<< "checking other strings" << endl;
+  srand(23434);
+  for(int i = 0; i < 10; i ++){
+    int randNum = rand() % 10 + 11;
+    char * astring = new char[randNum];
+    
+    for(int j=0; j < randNum - 1; j ++){
+      astring[j] = rand() % 26 + 'a';
+    }
+    astring[randNum-1] = '\0';
+    //cout << " checking " << astring << ": " ;
+    if(myfilter.check(astring))
+      cout<<" false positive " << astring << endl;
+    //cout << endl;
+  }
+
+  
   return 0;
 }
 	    

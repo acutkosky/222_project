@@ -20,7 +20,7 @@ namespace Filters {
       assert(WORD_SIZE%acolorbits == 0);
       colorbits = acolorbits;
       if(size == 0) {
-	bitarray = NULL;
+	bitarray = 0;
 	size = 0;
       }else{
 	size = (acolorbits*asize-1)/WORD_SIZE+1;

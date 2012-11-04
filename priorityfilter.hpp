@@ -19,8 +19,8 @@ namespace Filters {
     
     PriorityFilter(word size, word bits, word ak,word (*prioritypointer)(datatype), unsigned int (* alength) (datatype)):
       filter(size,bits),
-      k(ak),
       Priority(prioritypointer),
+      k(ak),
       length(alength)
     {}
 

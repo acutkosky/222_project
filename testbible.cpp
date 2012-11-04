@@ -8,7 +8,7 @@ using Filters::PriorityFilter;
 using Filters::word;
 
 
-#define FilterSize 1000
+#define FilterSize 100
 #define NumHashes 10
 
 
@@ -22,17 +22,19 @@ word priority3(char* str) {
   case 'a':
   case 'c':
   case 'g':
+  case 's':
+  case 'w':
+
     return 3;
     break;
-    
-  case 'h':
+  case 'h':    
+
   case 'i':
 
 
   case 'o':
-  case 's':
-  case 'w':
-    return 3;
+
+    return 2;
     break;
 
 

@@ -3,7 +3,7 @@
  * implements priority bloom filters
  */
 
-#include"MurmerHash3.cpp"
+#include"MurmurHash3.cpp"
 #include"colorarray.hpp"
 
 
@@ -23,8 +23,8 @@ namespace Filter {
 
     int insert(datatype toinsert) {
       for(word i=0;i<k;i++) {
-	word hashval = hash(toinsert,i,size)
-	  word curpriority = filter[hashval];
+	word hashval = hash(toinsert,i,size);
+	word curpriority = filter[hashval];
 	word priority = Priority(toinsert);
 	if(curpriority<priority)
 	  filter[hashval]=priority;
@@ -46,7 +46,7 @@ namespace Filter {
     }
 
     
-    ColorArray filter;
+    colorarray filter;
     word (*Priority)(datatype);
     word k;
    

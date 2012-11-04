@@ -23,9 +23,10 @@ namespace Filters {
 	bitarray = 0;
 	size = 0;
       }else{
-	size = (acolorbits*asize-1)/WORD_SIZE+1;
-	bitarray = new word[size];
-	for(unsigned int i=0;i<size;i++) {
+	size = asize;
+	actual_size = (colorbits*size-1)/WORD_SIZE+1;
+	bitarray = new word[actual_size];
+	for(unsigned int i=0;i<actual_size;i++) {
 	  bitarray[i] = 0;
 	}
       }
@@ -33,7 +34,7 @@ namespace Filters {
     }
     
     ~ColorArray() {
-      if(size != 0) {
+      if(actual_size != 0) {
 	delete [] bitarray;
       }
     }
@@ -98,7 +99,7 @@ namespace Filters {
     }
       
     word getsize() {
-      return size*WORD_SIZE/colorbits;
+      return size;
     }
 
     word numcolors() {
@@ -117,6 +118,8 @@ namespace Filters {
 
     word size;
     
+    word actual_size;
+
     word colorbits;
 
     //we'll just keep a set of colorbits 1s in a row around here

@@ -15,21 +15,31 @@ using Filters::word;
 //here is our priority function on strings. It is a big switch statement
 word priority3(char* str) {
   //a big lookup table
-
   switch(str[0]) {
   case 't':
+    return 3;
+    break;
   case 'a':
     return 3;
     break;
     
   case 'h':
   case 'i':
+
+
   case 'o':
   case 's':
   case 'w':
-    return 2;
+    return 3;
     break;
 
+
+  case 'n':
+  case 'l':
+  case 'd':
+  case 'r':
+    return 3;
+    break;
   default:
     return 1;
   }
@@ -38,6 +48,9 @@ word priority3(char* str) {
   return 0;
 }
 
+word bloompriority(char* str) {
+  return 1;
+}
 
 //here is our length function on strings. It is very hacky.
 word length(char* str) {
@@ -88,7 +101,7 @@ int main(int argc, char* argv []) {
   char* biblefile = argv[1];
   
 
-  PriorityFilter<char*> filter(FilterSize,3,NumHashes,priority3,length);
+  PriorityFilter<char*> filter(FilterSize,4,NumHashes,priority3,length);
 
   int t0,t1; //used for timing
 
@@ -103,10 +116,9 @@ int main(int argc, char* argv []) {
   t1 = clock();
   cout<<"checking with the priority filter took "<<(float)(t1-t0)/CLOCKS_PER_SEC<<" seconds\n";
 
-
   cout<<"***\n"<<"CHECKING NORMAL BLOOM FILTER NOW!\n"<<"***\n";
 
-  PriorityFilter<char*> bloomfilter(FilterSize*3,1,NumHashes,priority3,length);
+  PriorityFilter<char*> bloomfilter(FilterSize,1,NumHashes,bloompriority,length);
 
   t0 = clock();
   loadfilter(bloomfilter,testset);

@@ -1,6 +1,8 @@
 
 
 #include<iostream>
+#include"priorityfilter.hpp"
+#include<cstdlib>
 using std::cout;
 using std::endl;
 
@@ -27,6 +29,11 @@ int testfunct(int ha) {
 
 
 
+word priority(char* str) {
+  return ((word)str[0])%4;
+}
+
+
 
 int main(int argc, char* argv[] ) {
 
@@ -34,6 +41,29 @@ int main(int argc, char* argv[] ) {
 
   
   cout<<testing.run()<<endl;
+
+
+  PriorityFilter<char*> afilter(100,4,10,priority,strlen);
+
+
+  char ** strings = {"string1","string2","string4","astring","bstring"}
+
+  for (int i=0;i<5;i++) {
+    afilter.insert(strings[i]);
+  }
+
+  if(afilter.check("string")) {
+    cout<<"oh no it's a false positive. Probably things are broken\n";
+  } else {
+    cout<<"yay it wsn't there\n";
+  }
+
+  for(int i=0;i<5;i++) {
+    if(!afilter.check(strings[i]))
+      cout<<"fail on "<<strings[i];
+  }
+
+
   return 0;
 }
 	    

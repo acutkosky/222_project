@@ -20,6 +20,8 @@ word priority3(char* str) {
     return 3;
     break;
   case 'a':
+  case 'c':
+  case 'g':
     return 3;
     break;
     
@@ -38,7 +40,7 @@ word priority3(char* str) {
   case 'l':
   case 'd':
   case 'r':
-    return 3;
+    return 2;
     break;
   default:
     return 1;
@@ -101,7 +103,7 @@ int main(int argc, char* argv []) {
   char* biblefile = argv[1];
   
 
-  PriorityFilter<char*> filter(FilterSize,4,NumHashes,priority3,length);
+  PriorityFilter<char*> filter(FilterSize,2,NumHashes,priority3,length);
 
   int t0,t1; //used for timing
 
@@ -118,7 +120,7 @@ int main(int argc, char* argv []) {
 
   cout<<"***\n"<<"CHECKING NORMAL BLOOM FILTER NOW!\n"<<"***\n";
 
-  PriorityFilter<char*> bloomfilter(FilterSize,1,NumHashes,bloompriority,length);
+  PriorityFilter<char*> bloomfilter(FilterSize*2,1,NumHashes,bloompriority,length);
 
   t0 = clock();
   loadfilter(bloomfilter,testset);

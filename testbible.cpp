@@ -8,7 +8,7 @@ using Filters::PriorityFilter;
 using Filters::word;
 
 
-#define FilterSize 100
+#define FilterSize 1000
 #define NumHashes 10
 
 
@@ -17,31 +17,20 @@ word priority3(char* str) {
   //a big lookup table
   switch(str[0]) {
   case 't':
+  case 'h':
+  case 'f':
+  case 'e':
+  case 'z':
+  case 'x':
+  case 'v':
+  case 'q':
     return 3;
     break;
-  case 'a':
-  case 'c':
-  case 'g':
+  case 'a':    
   case 's':
-  case 'w':
-
-    return 3;
-    break;
-  case 'h':    
-
-  case 'i':
-
-
+  case 'b':
   case 'o':
-
-    return 2;
-    break;
-
-
-  case 'n':
   case 'l':
-  case 'd':
-  case 'r':
     return 2;
     break;
   default:
@@ -105,7 +94,10 @@ int main(int argc, char* argv []) {
   char* biblefile = argv[1];
   
 
-  PriorityFilter<char*> filter(FilterSize,2,NumHashes,priority3,length);
+  word hashvals[] = {10,15,10,5};
+  word bloomhashvals[] = {10,12};
+
+  PriorityFilter<char*> filter(FilterSize,2,hashvals,priority3,length);
 
   int t0,t1; //used for timing
 
@@ -122,7 +114,7 @@ int main(int argc, char* argv []) {
 
   cout<<"***\n"<<"CHECKING NORMAL BLOOM FILTER NOW!\n"<<"***\n";
 
-  PriorityFilter<char*> bloomfilter(FilterSize*2,1,NumHashes,bloompriority,length);
+  PriorityFilter<char*> bloomfilter(FilterSize*2,1,bloomhashvals,bloompriority,length);
 
   t0 = clock();
   loadfilter(bloomfilter,testset);

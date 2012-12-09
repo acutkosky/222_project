@@ -8,39 +8,116 @@ using Filters::PriorityFilter;
 using Filters::word;
 
 
-#define FilterSize 1000
+#define FilterSize 500
 #define NumHashes 10
 
 
 //here is our priority function on strings. It is a big switch statement
-word priority3(char* str) {
+word priority_3bits(char* str) {
   //a big lookup table
   switch(str[0]) {
   case 't':
+    return 7;
+    break;
+  case 'a':
+    return 6;
+    break;
+  case 'o':
+    return 5;
+    break;
+  case 's':
   case 'h':
-  case 'f':
-  case 'e':
-  case 'z':
-  case 'x':
-  case 'v':
-  case 'q':
+    return 4;
+    break;
+  case 'w':
+  case 'i':
+  case 'b':
     return 3;
     break;
-  case 'a':    
-  case 's':
-  case 'b':
-  case 'o':
-  case 'l':
+  case 'f':
+  case 'x':
+  case 'm':
+  case 'q':
+  case 'c':
+  case 'z':
+  case 'v':
     return 2;
     break;
   default:
     return 1;
   }
+
+
+  
+  cout<<"There was a fail in priority_3bits function on input "<<str<<endl;
+  return 0;
+}
+ 
+//here is our priority function on strings. It is a big switch statement
+word priority3(char* str) {
+  //a big lookup table
+  switch(str[0]) {
+  case 't':
+    return 15;
+    break;
+  case 'a':
+    return 14;
+    break;
+  case 'o':
+    return 13;
+    break;
+  case 's':
+    return 12;
+    break;
+  case 'h':
+    return 11;
+    break;
+  case 'w':
+    return 10;
+    break;
+  case 'i':
+    return 9;
+    break;
+  case 'b':
+    return 8;
+    break;
+  case 'f':
+  case 'x':
+    return 7;
+    break;
+  case 'm':
+  case 'q':
+    return 6;
+    break;
+  case 'c':
+  case 'z':
+  case 'v':
+    return 5;
+    break;
+  case 'l':
+  case 'j':
+  case 'k':
+    return 4;
+    break;
+  case 'n':
+  case 'r':
+  case 'e':
+    return 3;
+    break;
+  case 'd':
+  case 'y':
+    return 2;
+    break;
+  default:
+    return 1;
+  }
+
+
   
   cout<<"There was a fail in priority3 function on input "<<str<<endl;
   return 0;
 }
-
+ 
 word bloompriority(char* str) {
   return 1;
 }
@@ -94,10 +171,10 @@ int main(int argc, char* argv []) {
   char* biblefile = argv[1];
   
 
-  word hashvals[] = {10,15,10,5};
-  word bloomhashvals[] = {10,12};
+  word hashvals[] = {10,10,10,10,10,9,9,7,6,6,5,3,2,2,2,2,2};
+  word bloomhashvals[] = {10,10};
 
-  PriorityFilter<char*> filter(FilterSize,2,hashvals,priority3,length);
+  PriorityFilter<char*> filter(FilterSize,3,hashvals,priority_3bits,length);
 
   int t0,t1; //used for timing
 
@@ -114,7 +191,7 @@ int main(int argc, char* argv []) {
 
   cout<<"***\n"<<"CHECKING NORMAL BLOOM FILTER NOW!\n"<<"***\n";
 
-  PriorityFilter<char*> bloomfilter(FilterSize*2,1,bloomhashvals,bloompriority,length);
+  PriorityFilter<char*> bloomfilter(FilterSize*4,1,bloomhashvals,bloompriority,length);
 
   t0 = clock();
   loadfilter(bloomfilter,testset);

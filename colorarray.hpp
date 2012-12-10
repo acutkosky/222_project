@@ -10,6 +10,8 @@
 namespace Filters {
   typedef unsigned int word;
 
+
+  const unsigned int CHAR_SIZE = 8;
   
   const unsigned int WORD_SIZE = sizeof(word)*8;
 
@@ -17,15 +19,15 @@ namespace Filters {
 
   public:
     ColorArray(word asize = 0,word acolorbits = 1) { 
-      assert(WORD_SIZE%acolorbits == 0);
+      assert(acolorbits <= 8);
       colorbits = acolorbits;
       if(size == 0) {
 	bitarray = 0;
 	size = 0;
       }else{
 	size = asize;
-	actual_size = (colorbits*size-1)/WORD_SIZE+1;
-	bitarray = new word[actual_size];
+	actual_size = (colorbits*size-1)/CHAR_SIZE+1;
+	bitarray = new char[actual_size];
 	for(unsigned int i=0;i<actual_size;i++) {
 	  bitarray[i] = 0;
 	}
@@ -90,12 +92,12 @@ namespace Filters {
 
 
     word operator[] (word pos) const {
-      return (bitarray[getindex(pos)]>>getoffset(pos))&colormask;
+      return (getword(getindex(pos))>>getoffset(pos))&colormask;
     }
       
 
     reference operator[](word pos) {
-      return reference(bitarray[getindex(pos)],getoffset(pos),colormask);
+      return reference(getword(getindex(pos)),getoffset(pos),colormask);
     }
       
     word getsize() {
@@ -108,13 +110,17 @@ namespace Filters {
     
   private:
     
-    word getindex(word pos) const {return pos*colorbits/WORD_SIZE;}
-    word getoffset(word pos) const {return pos*colorbits % WORD_SIZE;}
+    word& getword(word pos) const{
+      return (*((word*)(bitarray+getindex(pos))));
+    }
+
+    word getindex(word pos) const {return pos*colorbits/CHAR_SIZE;}
+    word getoffset(word pos) const {return pos*colorbits % CHAR_SIZE;}
 
 
 
   private:
-    word *bitarray;
+    char *bitarray;
 
     word size;
     

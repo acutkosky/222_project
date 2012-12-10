@@ -17,7 +17,7 @@ namespace Filters {
     
   public:
     
-    PriorityFilter(word size, word bits, word ak,word (*prioritypointer)(datatype), unsigned int (* alength) (datatype)):
+    PriorityFilter(word size, word bits, word* ak,word (*prioritypointer)(datatype), unsigned int (* alength) (datatype)):
       filter(size,bits),
       Priority(prioritypointer),
       k(ak),
@@ -25,10 +25,10 @@ namespace Filters {
     {}
 
     int insert(datatype toinsert) {
-      for(word i=0;i<k;i++) {
+      word priority = Priority(toinsert);
+      for(word i=0;i<k[priority];i++) {
 	word hashval = hash(toinsert,i,filter.getsize());
 	word curpriority = filter[hashval];
-	word priority = Priority(toinsert);
 	if(curpriority<priority)
 	  filter[hashval]=priority;
       }
@@ -39,7 +39,7 @@ namespace Filters {
     int check(datatype tocheck) {
       word priority = Priority(tocheck);
 
-      for(word i=0;i<k;i++) {
+      for(word i=0;i<k[priority];i++) {
 	word hashval = hash(tocheck,i,filter.getsize());
 	word curpriority = filter[hashval];
 	//cout << hashval << ' ' << curpriority << ' ';
@@ -53,7 +53,7 @@ namespace Filters {
     
     ColorArray filter;
     word (*Priority)(datatype);
-    word k;
+    word* k;
    
 
   private:

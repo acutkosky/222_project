@@ -20,10 +20,12 @@ wordset = set(words.readlines())
 words.close()
 
 positivefile = open(positives)
+positivelines = positivefile.readlines()
+positivefile.close()
 outputfile = open(output,"w")
-for line in positivefile.readlines():
+
+for line in positivelines:
     if line not in wordset:
         outputfile.write(line)
 
 outputfile.close()
-positivefile.close()

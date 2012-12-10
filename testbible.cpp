@@ -9,7 +9,7 @@ using Filters::ColorArray;
 
 #define FilterSize 500
 #define NumHashes 5
-
+#define NumBits 2
 
 //here is our priority function on strings. It is a big switch statement
 word priority_3bits(char* str) {
@@ -116,7 +116,34 @@ word priority3(char* str) {
   cout<<"There was a fail in priority3 function on input "<<str<<endl;
   return 0;
 }
- 
+
+word priority_2bits(char* str) {
+  //a big lookup table
+  switch(str[0]) {
+  case 't':
+  case 'w':
+  case 'n':
+  case 'y':
+  case 'o':
+  case 'z':
+  case 'x':
+  case 'q':
+    return 3;
+    break;
+  case 'a':
+  case 'i':
+  case 'e':
+  case 'r':
+    return 2;
+    break;
+
+  default:
+    return 1;
+  }
+  
+  cout<<"There was a fail in priority3 function on input "<<str<<endl;
+  return 0;
+} 
 word bloompriority(char* str) {
   return 1;
 }
@@ -193,7 +220,7 @@ int main(int argc, char* argv []) {
   word hashvals[] = {10,10,10,10,10,9,9,7,6,6,5,3,2,2,2,2,2};
   word bloomhashvals[] = {10,10};
 
-  PriorityFilter<char*> filter(FilterSize,4,hashvals,priority_3bits,length);
+  PriorityFilter<char*> filter(FilterSize,NumBits,hashvals,priority_2bits,length);
 
   int t0,t1; //used for timing
 
@@ -210,7 +237,7 @@ int main(int argc, char* argv []) {
 
   cout<<"***\n"<<"CHECKING NORMAL BLOOM FILTER NOW!\n"<<"***\n";
 
-  PriorityFilter<char*> bloomfilter(FilterSize*4,1,bloomhashvals,bloompriority,length);
+  PriorityFilter<char*> bloomfilter(FilterSize*NumBits,1,bloomhashvals,bloompriority,length);
 
   t0 = clock();
   loadfilter(bloomfilter,testset);

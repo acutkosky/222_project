@@ -5,7 +5,7 @@
 using namespace std;
 using Filters::PriorityFilter;
 using Filters::word;
-
+using Filters::ColorArray;
 
 #define FilterSize 500
 #define NumHashes 5
@@ -168,7 +168,27 @@ int main(int argc, char* argv []) {
   char* priorityout = argv[3];
   char* testset = argv[2];
   char* biblefile = argv[1];
+  /*  
+//SOME DEBUGGING CODE  
+
+  int testnums[] = {0,2,5,4,43,46,432,94,54,204,103,206,409};
   
+  ColorArray testcolors(FilterSize,4);
+  
+  for(int i=0;i<12;i++) {
+    testcolors[testnums[i]] = (i%15)+1;
+  }
+
+  for(int i=0;i<FilterSize;i++) {
+    if(testcolors[i] != 0)
+      cout<<i<<" "<<testcolors[i]<<endl;
+  }
+  
+  //  testcolors[0] = 1;
+  //  testcolors[2] = 2;
+  cout<<testcolors[0]<<endl;
+  return 0;
+  */
 
   word hashvals[] = {10,10,10,10,10,9,9,7,6,6,5,3,2,2,2,2,2};
   word bloomhashvals[] = {10,10};

@@ -23,9 +23,13 @@ positivefile = open(positives)
 positivelines = positivefile.readlines()
 positivefile.close()
 outputfile = open(output,"w")
-
+count = 0
 for line in positivelines:
     if line not in wordset:
         outputfile.write(line)
+    else:
+        count = count+1
 
 outputfile.close()
+
+print count

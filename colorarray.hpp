@@ -5,7 +5,9 @@
  *attempts to provide relatively seamless operation as a normal array
  */
 #include<assert.h>
-
+#include<iostream>
+using std::cout;
+using std::endl;
 
 namespace Filters {
   typedef unsigned int word;
@@ -21,7 +23,7 @@ namespace Filters {
     ColorArray(word asize = 0,word acolorbits = 1) { 
       assert(acolorbits <= 8);
       colorbits = acolorbits;
-      if(size == 0) {
+      if(asize == 0) {
 	bitarray = 0;
 	size = 0;
       }else{
@@ -111,11 +113,11 @@ namespace Filters {
   private:
     
     word& getword(word pos) const{
-      return (*((word*)(bitarray+getindex(pos))));
+      return (*((word*)(bitarray+(pos))));
     }
 
     word getindex(word pos) const {return pos*colorbits/CHAR_SIZE;}
-    word getoffset(word pos) const {return pos*colorbits % CHAR_SIZE;}
+    word getoffset(word pos) const {return (pos*colorbits)% CHAR_SIZE;}
 
 
 

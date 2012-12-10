@@ -8,8 +8,8 @@ using Filters::PriorityFilter;
 using Filters::word;
 
 
-#define FilterSize 100
-#define NumHashes 10
+#define FilterSize 200
+#define NumHashes 5
 
 
 //here is our priority function on strings. It is a big switch statement
@@ -17,33 +17,22 @@ word priority3(char* str) {
   //a big lookup table
   switch(str[0]) {
   case 't':
+  case 'w':
+  case 'n':
+  case 'y':
+  case 'o':
+  case 'z':
+  case 'x':
+  case 'q':
     return 3;
     break;
   case 'a':
-  case 'c':
-  case 'g':
-  case 's':
-  case 'w':
-
-    return 3;
-    break;
-  case 'h':    
-
   case 'i':
-
-
-  case 'o':
-
-    return 2;
-    break;
-
-
-  case 'n':
-  case 'l':
-  case 'd':
+  case 'e':
   case 'r':
     return 2;
     break;
+
   default:
     return 1;
   }
